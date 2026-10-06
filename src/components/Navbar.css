@@ -1,0 +1,130 @@
+/* GLASSMORPHISM NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(10, 11, 16, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(176, 38, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+/* LOGO STYLING */
+.navbar-logo {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--text-main);
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+}
+
+.navbar-logo span {
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  margin-left: 0.3rem;
+}
+
+/* NAV LINKS (DESKTOP) */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+/* HAMBURGER TOGGLE BUTTON */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--neon-cyan);
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 1001;
+  outline: none;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-only-btn {
+  display: none;
+}
+
+/* MOBILE RESPONSIVE BREAKPOINT (768px and down) */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .mobile-only-btn {
+    display: block;
+  }
+
+  /* MOBILE SLIDE-OUT MENU */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(10, 11, 16, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-left: 1px solid var(--neon-purple);
+    box-shadow: -10px 0 30px rgba(176, 38, 255, 0.2);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+  }
+  
+  .nav-actions-desktop {
+    display: none;
+  }
+}

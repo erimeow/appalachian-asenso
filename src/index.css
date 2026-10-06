@@ -1,0 +1,44 @@
+/* Import Google Font (Inter & Orbitron for futuristic headers) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@600;800;900&display=swap');
+
+/* GLOBAL NEON THEME VARIABLES */
+:root {
+  --bg-dark: #0a0b10;
+  --bg-card: rgba(18, 20, 32, 0.75);
+  
+  --neon-purple: #b026ff;
+  --neon-cyan: #00f0ff;
+  --neon-green: #39ff14;
+  --neon-pink: #ff007f;
+
+  --text-main: #f0f4f8;
+  --text-muted: #94a3b8;
+
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --glow-purple: 0 0 15px rgba(176, 38, 255, 0.5);
+  --glow-cyan: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* BASE RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* UTILITY CLASSES FOR TITLES */
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+}
