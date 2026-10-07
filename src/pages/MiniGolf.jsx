@@ -39,7 +39,7 @@ function MiniGolf() {
             marginBottom: '2rem' 
           }}>
             <img 
-              src="/mini-golf.jpg" 
+              src="/mini-golf.png" 
               alt="Glowing Mini Golf Course" 
               style={{ width: '100%', height: '350px', objectFit: 'cover', display: 'block' }}
             />

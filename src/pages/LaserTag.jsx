@@ -39,7 +39,7 @@ function LaserTag() {
             marginBottom: '2rem' 
           }}>
             <img 
-              src="/laser-tag.jpg" 
+              src="/laser-tag.png" 
               alt="Neon Laser Tag Arena" 
               style={{ width: '100%', height: '350px', objectFit: 'cover', display: 'block' }}
             />

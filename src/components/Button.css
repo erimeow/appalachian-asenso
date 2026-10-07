@@ -1,4 +1,4 @@
-/* BASE REUSABLE BUTTON STYLES */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -20,7 +20,7 @@
   user-select: none;
 }
 
-/* VARIANT 1: NEON PURPLE (Primary Actions like BOOK NOW) */
+
 .btn-primary {
   background: rgba(176, 38, 255, 0.15);
   color: #ffffff;
@@ -35,7 +35,7 @@
   transform: translateY(-3px) scale(1.03);
 }
 
-/* VARIANT 2: CYAN GLOW (Secondary Actions like EXPLORE / VIEW PRICING) */
+
 .btn-secondary {
   background: rgba(0, 240, 255, 0.1);
   color: var(--neon-cyan);
@@ -50,7 +50,7 @@
   transform: translateY(-3px) scale(1.03);
 }
 
-/* ACTIVE / CLICKED STATE */
+
 .btn:active {
   transform: translateY(1px) scale(0.98);
 }
