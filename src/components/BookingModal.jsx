@@ -1,122 +1,210 @@
 import { useState } from 'react';
-import './BookingModal.css';
-import Button from './Button';
 
-function BookingModal({ isOpen, onClose }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    activity: 'mini-golf',
-    date: '',
-    guests: 2,
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+export default function BookingModal({ isOpen, onClose }) {
+  const [activity, setActivity] = useState('mini-golf');
+  const [guests, setGuests] = useState(2);
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setSubmitted(true);
   };
 
   const handleReset = () => {
-    setIsSubmitted(false);
+    setSubmitted(false);
     onClose();
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
+    <div 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 99999, // Pinakamataas na z-index para laging nasa ibabaw
+        padding: '1rem'
+      }}
+      onClick={onClose}
+    >
+      <div 
+        style={{
+          background: 'rgba(15, 15, 25, 0.95)',
+          border: '1px solid var(--neon-cyan)',
+          boxShadow: '0 0 35px rgba(0, 240, 255, 0.4)',
+          borderRadius: '16px',
+          padding: '2rem',
+          maxWidth: '500px',
+          width: '100%',
+          position: 'relative',
+          color: '#ffffff'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'none',
+            border: 'none',
+            color: '#fff',
+            fontSize: '1.5rem',
+            cursor: 'pointer'
+          }}
+        >
+          ✕
+        </button>
 
-        {!isSubmitted ? (
-          <>
-            <h2 className="modal-title">RESERVE YOUR <span>GAME</span></h2>
-            <p className="modal-subtitle">Pick your activity and lock in your slot at Appalachian Asenso.</p>
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+            <h2 style={{ color: 'var(--neon-cyan)', marginBottom: '1rem' }}>BOOKING CONFIRMED!</h2>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+              Thank you, {name}! We've received your booking request for {activity.toUpperCase()} on {date} at {time}.
+            </p>
+            <button 
+              onClick={handleReset}
+              style={{
+                background: 'linear-gradient(45deg, #00f0ff, #b026ff)',
+                border: 'none',
+                color: '#fff',
+                padding: '0.8rem 1.5rem',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                cursor: 'pointer'
+              }}
+            >
+              CLOSE
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h2 style={{ color: 'var(--neon-cyan)', marginBottom: '0.5rem', textAlign: 'center' }}>
+              BOOK YOUR EXPERIENCE
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem', textAlign: 'center' }}>
+              Reserve your spot at Appalachian Asenso
+            </p>
 
-            <form onSubmit={handleSubmit} className="booking-form">
-              <div className="form-group">
-                <label>FULL NAME</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  required 
-                  placeholder="Juan Dela Cruz"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                  Select Activity
+                </label>
+                <select 
+                  value={activity} 
+                  onChange={(e) => setActivity(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
+                >
+                  <option value="mini-golf">Glowing Mini Golf</option>
+                  <option value="laser-tag">Action Laser Tag</option>
+                  <option value="combo">Glow Combo (Both)</option>
+                </select>
               </div>
 
-              <div className="form-group">
-                <label>EMAIL ADDRESS</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  required 
-                  placeholder="juan@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>ACTIVITY</label>
-                  <select name="activity" value={formData.activity} onChange={handleChange}>
-                    <option value="mini-golf">Glowing Mini Golf</option>
-                    <option value="laser-tag">Neon Laser Tag</option>
-                    <option value="party">Birthday Party Package</option>
-                    <option value="full-pass">Combo Pass (Golf + Tag)</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label>NO. OF PLAYERS</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                    Date
+                  </label>
                   <input 
-                    type="number" 
-                    name="guests" 
-                    min="1" 
-                    max="30"
-                    value={formData.guests}
-                    onChange={handleChange}
+                    type="date" 
+                    required
+                    value={date} 
+                    onChange={(e) => setDate(e.target.value)}
+                    style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                    Time
+                  </label>
+                  <input 
+                    type="time" 
+                    required
+                    value={time} 
+                    onChange={(e) => setTime(e.target.value)}
+                    style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>PREFERRED DATE</label>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                  Number of Guests
+                </label>
                 <input 
-                  type="date" 
-                  name="date" 
-                  required 
-                  value={formData.date}
-                  onChange={handleChange}
+                  type="number" 
+                  min="1" 
+                  max="20"
+                  value={guests} 
+                  onChange={(e) => setGuests(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
                 />
               </div>
 
-              <Button variant="primary" style={{ width: '100%', marginTop: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                  Full Name
+                </label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="John Doe"
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.3rem', color: '#ccc' }}>
+                  Email Address
+                </label>
+                <input 
+                  type="email" 
+                  required
+                  placeholder="john@example.com"
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', background: '#0a0a12', border: '1px solid #333', color: '#fff', borderRadius: '8px' }}
+                />
+              </div>
+
+              <button 
+                type="submit"
+                style={{
+                  marginTop: '0.5rem',
+                  background: 'linear-gradient(45deg, #00f0ff, #b026ff)',
+                  border: 'none',
+                  color: '#fff',
+                  padding: '0.85rem',
+                  borderRadius: '8px',
+                  fontWeight: 'bold',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)'
+                }}
+              >
                 CONFIRM RESERVATION
-              </Button>
+              </button>
             </form>
-          </>
-        ) : (
-          <div className="submission-success">
-            <div className="success-icon">🎉</div>
-            <h2>BOOKING CONFIRMED!</h2>
-            <p>Salamat, <strong>{formData.name}</strong>! Na-receive na namin ang request mo para sa <strong>{formData.activity.replace('-', ' ').toUpperCase()}</strong>.</p>
-            <p className="success-sub">Magpapadala kami ng confirmation details sa <strong>{formData.email}</strong>.</p>
-            <Button variant="primary" onClick={handleReset}>
-              DONE
-            </Button>
           </div>
         )}
       </div>
     </div>
   );
 }
-
-export default BookingModal;

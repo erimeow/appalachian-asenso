@@ -1,66 +1,81 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
 
-function Navbar({ onBookClick }) {
+export default function Navbar({ onOpenBooking }) {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const navLinks = [
+    { name: 'HOME', path: '/' },
+    { name: 'MINI GOW', path: '/mini-golf' },
+    { name: 'LASER TAG', path: '/laser-tag' },
+    { name: 'PARTIES', path: '/parties' },
+    { name: 'PRIVATE GROUPS', path: '/private-groups' },
+    { name: 'CONTACT', path: '/contact' }
+  ];
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* LOGO LINK */}
-        <Link to="/" className="navbar-logo" onClick={closeMenu}>
-          APPALACHIAN <span>ASENSO</span>
+    <header style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      backgroundColor: 'rgba(5, 5, 10, 0.85)',
+      backdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(0, 240, 255, 0.2)'
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '1rem 2rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        {/* LOGO */}
+        <Link to="/" style={{ textDecoration: 'none', color: '#fff', fontSize: '1.4rem', fontWeight: 'bold', letterSpacing: '1px' }}>
+          APPALACHIAN <span style={{ color: 'var(--neon-cyan)' }}>ASENSO</span>
         </Link>
 
-        {/* MOBILE TOGGLE ICON */}
-        <button className="nav-toggle" onClick={toggleMenu} aria-label="Toggle menu">
-          {isOpen ? '✕' : '☰'}
-        </button>
+        {/* DESKTOP NAV LINKS */}
+        <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="desktop-nav">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path;
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                style={{
+                  textDecoration: 'none',
+                  color: isActive ? 'var(--neon-cyan)' : '#ccc',
+                  fontWeight: isActive ? 'bold' : '500',
+                  fontSize: '0.9rem',
+                  letterSpacing: '1px',
+                  transition: 'color 0.2s ease',
+                  borderBottom: isActive ? '2px solid var(--neon-cyan)' : '2px solid transparent',
+                  paddingBottom: '4px'
+                }}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </nav>
 
-        {/* NAV MENU LINKS */}
-        <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
-          <li>
-            <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
-          </li>
-          <li>
-            <Link to="/mini-golf" className="nav-link" onClick={closeMenu}>Mini Golf</Link>
-          </li>
-          <li>
-            <Link to="/laser-tag" className="nav-link" onClick={closeMenu}>Laser Tag</Link>
-          </li>
-          <li>
-            <Link to="/parties" className="nav-link" onClick={closeMenu}>Parties</Link>
-          </li>
-          <li>
-            <Link to="/contact" className="nav-link" onClick={closeMenu}>Contact</Link>
-          </li>
-          {/* MOBILE BOOK BUTTON INSIDE DRAWER */}
-          <li className="mobile-only-btn" style={{ marginTop: '1rem' }}>
-            <Button variant="primary" onClick={() => { closeMenu(); onBookClick(); }}>
-              BOOK NOW
-            </Button>
-          </li>
-        </ul>
-
-        {/* DESKTOP BOOK BUTTON */}
-        <div className="nav-actions nav-actions-desktop">
-          <Button variant="primary" onClick={onBookClick}>
+        {/* BOOK NOW BUTTON */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Button 
+            variant="primary" 
+            onClick={() => {
+              if (typeof onOpenBooking === 'function') {
+                onOpenBooking();
+              }
+            }}
+          >
             BOOK NOW
           </Button>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
-
-export default Navbar;

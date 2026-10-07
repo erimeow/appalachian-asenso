@@ -3,7 +3,7 @@ import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
 
-function LaserTag() {
+function LaserTag({ onOpenBooking }) {
   useEffect(() => {
     document.title = 'Action Laser Tag | Appalachian Asenso';
   }, []);
@@ -41,14 +41,14 @@ function LaserTag() {
             <img 
               src="/laser-tag.png" 
               alt="Neon Laser Tag Arena" 
-              style={{ width: '100%', height: '350px', objectFit: 'cover', display: 'block' }}
+              style={{ width: '100%', height: 'auto', maxHeight: '450px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
             />
           </div>
 
           <p style={{ color: 'var(--text-muted)', fontSize: '1.15rem', lineHeight: '1.8', marginBottom: '2rem' }}>
             Suit up and step into our high-energy laser tag arena. High-tech equipment, fog, music, and glowing obstacles create an incredible battleground for friends, families, and parties.
           </p>
-          <Button variant="primary" onClick={() => alert("Booking Laser Tag...")}>
+          <Button variant="primary" onClick={onOpenBooking}>
             BOOK LASER TAG SESSION
           </Button>
         </div>

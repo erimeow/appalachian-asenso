@@ -3,7 +3,7 @@ import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
 
-function MiniGolf() {
+function MiniGolf({ onOpenBooking }) {
   useEffect(() => {
     document.title = 'Glowing Mini Golf | Appalachian Asenso';
   }, []);
@@ -41,14 +41,14 @@ function MiniGolf() {
             <img 
               src="/mini-golf.png" 
               alt="Glowing Mini Golf Course" 
-              style={{ width: '100%', height: '350px', objectFit: 'cover', display: 'block' }}
+              style={{ width: '100%', height: 'auto', maxHeight: '450px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
             />
           </div>
 
           <p style={{ color: 'var(--text-muted)', fontSize: '1.15rem', lineHeight: '1.8', marginBottom: '2rem' }}>
             Experience mini golf like never before. Step onto our glowing course in Pennington Gap, VA, where neon colors pop under blacklights and every hole offers a unique futuristic challenge.
           </p>
-          <Button variant="primary" onClick={() => alert("Booking Mini Golf...")}>
+          <Button variant="primary" onClick={onOpenBooking}>
             BOOK MINI GOLF SESSION
           </Button>
         </div>
