@@ -1,9 +1,9 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // 3D Neon Particle Field
-function CyberParticles({ count = 300, color = '#00f0ff' }) {
+function CyberParticles({ count = 100, color = '#00f0ff' }) {
   const mesh = useRef();
   
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -23,7 +23,7 @@ function CyberParticles({ count = 300, color = '#00f0ff' }) {
     if (!mesh.current) return;
     particles.forEach((p, i) => {
       p.z += p.speed * 15 * delta;
-      if (p.z > 10) p.z = -20; // Loop back
+      if (p.z > 10) p.z = -20;
       
       dummy.position.set(p.x, p.y, p.z);
       dummy.scale.setScalar(0.08);
@@ -60,11 +60,21 @@ function CyberGrid({ color = '#b026ff' }) {
 }
 
 export default function ThreeDTransitionCanvas({ activeColor = '#00f0ff', isAnimating = false }) {
-  // Respect prefers-reduced-motion
+  const [isMobile, setIsMobile] = useState(false);
+  const [hasWebGLError, setHasWebGLError] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const prefersReducedMotion = typeof window !== 'undefined' && 
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (prefersReducedMotion || !isAnimating) return null;
+  // Kung may WebGL issue sa extension o device, huwag nang i-render ang 3D canvas
+  if (prefersReducedMotion || !isAnimating || hasWebGLError) return null;
 
   return (
     <div style={{
@@ -73,14 +83,23 @@ export default function ThreeDTransitionCanvas({ activeColor = '#00f0ff', isAnim
       left: 0,
       width: '100vw',
       height: '100vh',
-      pointerEvents: 'none', // Siguradong hindi haharang sa anumang click
+      pointerEvents: 'none',
       zIndex: 99,
       opacity: isAnimating ? 0.85 : 0,
       transition: 'opacity 0.3s ease-in-out'
     }}>
-      <Canvas camera={{ position: [0, 0, 8], fov: 60 }} gl={{ powerPreference: 'high-performance', antialias: false }} style={{ pointerEvents: 'none' }}>
+      <Canvas 
+        camera={{ position: [0, 0, isMobile ? 12 : 8], fov: isMobile ? 75 : 60 }} 
+        gl={{ powerPreference: 'default', antialias: false, failIfMajorPerformanceCaveat: false }} 
+        style={{ pointerEvents: 'none', width: '100%', height: '100%' }}
+        onCreated={({ gl }) => {
+          // Verify if WebGL context was created properly
+          if (!gl) setHasWebGLError(true);
+        }}
+        onError={() => setHasWebGLError(true)}
+      >
         <ambientLight intensity={0.5} />
-        <CyberParticles count={150} color={activeColor} />
+        <CyberParticles count={isMobile ? 50 : 150} color={activeColor} />
         <CyberGrid color={activeColor} />
       </Canvas>
     </div>

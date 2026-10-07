@@ -1,45 +1,43 @@
 import { motion } from 'framer-motion';
 
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    scale: 0.92,
-    rotateX: 8,
-    z: -100,
-    filter: 'blur(6px)'
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    rotateX: 0,
-    z: 0,
-    filter: 'blur(0px)',
-    transition: {
-      duration: 0.65,
-      ease: [0.25, 1, 0.5, 1] // Custom cubic easing (Apple-level smoothness)
-    }
-  },
-  exit: {
-    opacity: 0,
-    scale: 1.08,
-    rotateX: -6,
-    z: 100,
-    filter: 'blur(8px)',
-    transition: {
-      duration: 0.45,
-      ease: [0.7, 0, 0.84, 0]
-    }
-  }
-};
-
 export default function PageTransition({ children }) {
-  // Respect prefers-reduced-motion
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const prefersReducedMotion = typeof window !== 'undefined' && 
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (prefersReducedMotion) {
     return <div>{children}</div>;
   }
+
+  // Lighter scale & depth animation on mobile phones to prevent overflow
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      scale: isMobile ? 0.96 : 0.92,
+      rotateX: isMobile ? 0 : 8,
+      filter: 'blur(4px)'
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      rotateX: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: isMobile ? 0.45 : 0.65,
+        ease: [0.25, 1, 0.5, 1]
+      }
+    },
+    exit: {
+      opacity: 0,
+      scale: isMobile ? 1.03 : 1.08,
+      rotateX: isMobile ? 0 : -6,
+      filter: 'blur(4px)',
+      transition: {
+        duration: isMobile ? 0.35 : 0.45,
+        ease: [0.7, 0, 0.84, 0]
+      }
+    }
+  };
 
   return (
     <motion.div
@@ -49,8 +47,8 @@ export default function PageTransition({ children }) {
       variants={pageVariants}
       style={{
         width: '100%',
-        perspective: '1200px',
-        transformStyle: 'preserve-3d',
+        overflowX: 'hidden',
+        perspective: isMobile ? 'none' : '1200px',
         willChange: 'transform, opacity'
       }}
     >
