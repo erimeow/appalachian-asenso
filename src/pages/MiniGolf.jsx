@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import { GolfIcon, StarIcon, ShieldIcon } from '../components/VenueIcons';
 
 function MiniGolf({ onOpenBooking }) {
   useEffect(() => {
@@ -10,43 +11,42 @@ function MiniGolf({ onOpenBooking }) {
 
   const features = [
     {
-      icon: '💡',
-      title: 'Blacklight Glow',
-      description: 'Play under vibrant UV blacklights with custom glowing golf balls, putters, and obstacles.'
+      icon: <GolfIcon size={24} color="#f3f4f6" />,
+      title: 'Blacklight Environment',
+      description: 'Immersive UV ultraviolet blacklight course engineered with custom glowing obstacles and turf hazards.'
     },
     {
-      icon: '⛳',
-      title: 'Custom Course Design',
-      description: 'Navigate futuristic twists, glowing tunnels, and challenging neon turf hazards.'
+      icon: <StarIcon size={24} color="#f3f4f6" />,
+      title: 'Precision Course Design',
+      description: 'Challenging architectural holes designed for both casual family entertainment and competitive play.'
     },
     {
-      icon: '👨‍👩‍👧‍👦',
-      title: 'All Ages Welcome',
-      description: 'Fun for kids, teens, families, and adults—perfect for casual play or competitive group rounds.'
+      icon: <ShieldIcon size={24} color="#f3f4f6" />,
+      title: 'All-Age Accessibility',
+      description: 'Comfortable indoor facility layout optimized for groups, families, and weekend outings.'
     }
   ];
 
   return (
-    <div>
-      <Section id="mini-golf-hero" subtitle="BLACKLIGHT INDOOR FUN" title="GLOWING MINI GOLF">
+    <div style={{ paddingBottom: '4rem' }}>
+      <Section id="mini-golf-hero" subtitle="INDOOR ATTRACTION" title="GLOWING MINI GOLF">
         <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-          {/* LOCAL HERO IMAGE */}
           <div style={{ 
-            borderRadius: '16px', 
+            borderRadius: '12px', 
             overflow: 'hidden', 
-            border: '1px solid var(--neon-cyan)', 
-            boxShadow: '0 0 25px rgba(0, 240, 255, 0.3)',
-            marginBottom: '2rem' 
+            border: '1px solid rgba(255, 255, 255, 0.1)', 
+            marginBottom: '2rem',
+            background: '#12151e'
           }}>
             <img 
               src="/mini-golf.png" 
               alt="Glowing Mini Golf Course" 
-              style={{ width: '100%', height: 'auto', maxHeight: '450px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+              style={{ width: '100%', height: 'auto', maxHeight: '420px', objectFit: 'cover', display: 'block' }}
             />
           </div>
 
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.15rem', lineHeight: '1.8', marginBottom: '2rem' }}>
-            Experience mini golf like never before. Step onto our glowing course in Pennington Gap, VA, where neon colors pop under blacklights and every hole offers a unique futuristic challenge.
+          <p style={{ color: '#9ca3af', fontSize: '1.05rem', lineHeight: '1.7', marginBottom: '2.5rem' }}>
+            Experience indoor mini golf reimagined. Located in Pennington Gap, VA, our blacklight course combines precision layout design with a striking modern aesthetic.
           </p>
           <Button variant="primary" onClick={onOpenBooking}>
             BOOK MINI GOLF SESSION
@@ -54,8 +54,8 @@ function MiniGolf({ onOpenBooking }) {
         </div>
       </Section>
 
-      <Section id="mini-golf-features" subtitle="WHAT TO EXPECT" title="THE GLOW EXPERIENCE" glass={true}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+      <Section id="mini-golf-features" subtitle="SPECIFICATIONS" title="THE COURSE EXPERIENCE" glass={true}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
           {features.map((feat, idx) => (
             <Card key={idx} icon={feat.icon} title={feat.title} description={feat.description} />
           ))}

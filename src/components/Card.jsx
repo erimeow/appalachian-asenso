@@ -2,33 +2,32 @@ export default function Card({ title, description, icon, children }) {
   return (
     <div
       style={{
-        background: 'var(--bg-glass)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid var(--border-subtle)',
+        background: '#12151e',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
         borderRadius: '12px',
         padding: '2rem 1.75rem',
-        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'border-color 0.2s ease, transform 0.2s ease',
         position: 'relative',
         overflow: 'hidden'
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(0, 240, 255, 0.3)';
-        e.currentTarget.style.transform = 'translateY(-3px)';
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'var(--border-subtle)';
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
         e.currentTarget.style.transform = 'translateY(0px)';
       }}
     >
       {icon && (
-        <div style={{ fontSize: '1.75rem', marginBottom: '1rem', opacity: 0.9 }}>
+        <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center' }}>
           {icon}
         </div>
       )}
-      <h3 style={{ fontSize: '1.15rem', color: '#fff', marginBottom: '0.6rem', fontWeight: '600' }}>
+      <h3 style={{ fontSize: '1.1rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: '600', letterSpacing: '0.02em' }}>
         {title}
       </h3>
-      <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: '1.6' }}>
+      <p style={{ color: '#9ca3af', fontSize: '0.9rem', lineHeight: '1.6' }}>
         {description}
       </p>
       {children}
